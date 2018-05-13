@@ -22,8 +22,8 @@ On Monday morning I added a hack to change `-Dist_To_Enemy(Site)` to `+Dist_To_E
 According to this sorting the top 2 sites were fed as targets to my search algorithm which handled the pathfinding. 
 
 If I was touching a site I had some conditions on what to build, therefore not calling the search algorithm. But very often this was overridden by a "Knight danger" criterion, and since my search algorithm only builds towers that is mostly what my AI did. For reference I had these formulas for site building scores:
-* `11*(Max_Dist-Dist_To_Enemy(Site))/Max_Dist;` as a tower score. The closer a site is to the enemy to more you may want to build a tower there. Max_Dist is the diagonal span of the map.
-* `(My_Barracks==0?12:0)*(Max_Dist-Dist_To_Enemy(Site))/Max_Dist;` as a barracks score. I try to have 1 barrack, with a score slightly higher than a tower to give it priority.
+* `11*(Max_Dist-Dist_To_Enemy(Site))/Max_Dist` as a tower score. The closer a site is to the enemy to more you may want to build a tower there. Max_Dist is the diagonal span of the map.
+* `(My_Barracks==0?12:0)*(Max_Dist-Dist_To_Enemy(Site))/Max_Dist` as a barracks score. I try to have 1 barrack, with a score slightly higher than a tower to give it priority.
 * `maxMineSize+1e-2*gold+2*(S.Dist_To_Enemy(Site)-Max_Dist)/Max_Dist` as a mine score.
 These formulas were overridden to infinity with some ifs for the opening of the game. I try to build 2 mines, but will switch to a barrack earlier if the enemy has already started producing his knights and then I prepare my defenses with towers.
 
@@ -48,8 +48,9 @@ To my surprise, despite all the simulation errors I had, due to simplifying the 
 
 I guided the search by producing moves in the following way:
 * 35% chance to do a "hug move" (20%) or a "tangent move" (15%)
-* Tangent move is going around the nearest site by targeting one of two intersection points of a circle of radius `60` (queen speed) around your queen and the site. Tangent move is only tried if the queen is within `Site_Radius+Queen_Speed` of the site (intersection points exist). If tangent move is not possible then hug move is performed instead.
+* Tangent move is going around the nearest site by targeting one of two intersection points of a circle of radius `60` (queen speed) around your queen and the site. Tangent move is only tried if the queen is within `Site_Radius+Queen_Speed` of the site (intersection points exist). If tangent move is not possible then hug move is performed instead. I used [this](https://stackoverflow.com/questions/3349125/circle-circle-intersection-points) stackoverflow topic for the intersection of two circles.
 * Hug move is moving towards the nearest site in a straight line if not touching it. If touching it, it is building/upgrading a tower. I don't allow my AI to build towers on my mines, my AI would therefore sometimes let enemy creeps destroy a mine to replace it with a tower.
+* 65% chance to make a move in a random direction, with a speed of `60` 85% of the time and a random speed 15% of the time.
 
 ### Eval
 * `-1000` if queen is dead.
