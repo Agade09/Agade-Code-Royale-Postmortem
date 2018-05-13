@@ -1,4 +1,4 @@
-# Agade Code 4 Life Postmortem
+# Agade Code Royale Postmortem
 
 I will describe my AI which finished 3rd on the Code Royale competition on Codingame.
 
