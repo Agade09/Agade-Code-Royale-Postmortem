@@ -24,7 +24,8 @@ According to this sorting the top 2 sites were fed as targets to my search algor
 If I was touching a site I had some conditions on what to build, therefore not calling the search algorithm. But very often this was overridden by a "Knight danger" criterion, and since my search algorithm only builds towers that is mostly what my AI did. For reference I had these formulas for site building scores:
 * `11*(Max_Dist-Dist_To_Enemy(Site))/Max_Dist` as a tower score. The closer a site is to the enemy to more you may want to build a tower there. Max_Dist is the diagonal span of the map.
 * `(My_Barracks==0?12:0)*(Max_Dist-Dist_To_Enemy(Site))/Max_Dist` as a barracks score. I try to have 1 barrack, with a score slightly higher than a tower to give it priority.
-* `maxMineSize+1e-2*gold+2*(S.Dist_To_Enemy(Site)-Max_Dist)/Max_Dist` as a mine score.
+* `maxMineSize+1e-2*gold+2*(Dist_To_Enemy(Site)-Max_Dist)/Max_Dist` as a mine score.
+
 These formulas were overridden to infinity with some ifs for the opening of the game. I try to build 2 mines, but will switch to a barrack earlier if the enemy has already started producing his knights and then I prepare my defenses with towers.
 
 ## Dancing queen
